@@ -77,4 +77,24 @@ func main() {
 
 	fmt.Printf("计算出的椭圆曲线X坐标:%s\n", x)
 	fmt.Printf("计算出的椭圆曲线Y坐标:%s\n", y)
+
+	fmt.Print("\n================根据指定的压缩WIF格式私钥，计算出16进制私钥 算法测试==================\n")
+	testkey := "L2h5KiLDR5oPb7wiedHs2MQRCaA28LCkgLFKpamrHdVBtCjxkqum"
+	fmt.Printf("当前录入的压缩WIF格式私钥:%x\n", testkey)
+	wifToHexPrivateTest := utils.WifToHexPrivateKey([]byte(testkey))
+	fmt.Printf("计算出的16进制私钥:%s\n", wifToHexPrivateTest)
+
+	fmt.Print("\n================根据指定16进制私钥，计算出公钥和地址 算法测试==================\n")
+	privkeyTest := "a343a91fa1f377ee4f92b402e17cda8b88d00584de555d5194742fea00f18a14"
+	fmt.Printf("当前录入的原始16进制格式私钥:%s\n", privkeyTest)
+	pubkeyUncompressedTest, pubkeyCompressedTest, x, y := utils.PrivkeyToPubKey(privkeyTest)
+	fmt.Printf("计算出的未压缩公钥:%s\n", pubkeyUncompressedTest)
+	fmt.Printf("计算出的压缩公钥:%s\n", pubkeyCompressedTest)
+
+	fmt.Printf("计算出的椭圆曲线X坐标:%s\n", x)
+	fmt.Printf("计算出的椭圆曲线Y坐标:%s\n", y)
+
+	pubkeyCompressedTestBytes, _ := hex.DecodeString(pubkeyCompressedTest)
+	fmt.Printf("根据计算出的压缩公钥，再计算出地址为:%s\n", utils.GetAddress(pubkeyCompressedTestBytes, config.BitcoinMainNetVersion))
+
 }

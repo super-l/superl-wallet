@@ -34,7 +34,7 @@ func WifToHexPrivateKey(privatekey []byte) string {
 	privatekeyDecodeStr := fmt.Sprintf("%x", privatekeyDecode)
 
 	var privatekeyHexStr string
-
+	//fmt.Print(len(privatekeyDecodeStr))
 	if compressed {
 		privatekeyHexStr = privatekeyDecodeStr[2 : len(privatekeyDecodeStr)-10]
 	} else {
