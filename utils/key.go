@@ -14,6 +14,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/decred/dcrd/dcrec/secp256k1"
+	"github.com/decred/dcrd/dcrec/secp256k1/ecdsa"
 	"golang.org/x/crypto/ripemd160"
 	"log"
 )
@@ -108,4 +109,18 @@ func IsVaildBitcoinAddress(address string) bool {
 	} else {
 		return false
 	}
+}
+
+// 获取签名
+func GetSign(key secp256k1.PrivateKey, message []byte) *ecdsa.Signature {
+	fmt.Printf("待签名字符:%s\n", message)
+	signature := ecdsa.Sign(&key, message)
+	return signature
+}
+
+// 验证签名
+func VerifySign(Signature *ecdsa.Signature, message []byte, pubKey *secp256k1.PublicKey) bool {
+	fmt.Printf("待验证字符:%s\n", message)
+	flag := Signature.Verify(message, pubKey)
+	return flag
 }

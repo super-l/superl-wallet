@@ -97,4 +97,26 @@ func main() {
 	pubkeyCompressedTestBytes, _ := hex.DecodeString(pubkeyCompressedTest)
 	fmt.Printf("根据计算出的压缩公钥，再计算出地址为:%s\n", utils.GetAddress(pubkeyCompressedTestBytes, config.BitcoinMainNetVersion))
 
+	fmt.Print("\n================签名算法测试==================\n")
+	message := []byte("hello,dsa签名")
+	verify_message := []byte("hello,dsa签名2")
+
+	signature := utils.GetSign(mywallrt.PrivateKey, message)
+	fmt.Printf("计算出的签名:%x\n", signature.Serialize())
+
+	// 验证签名
+	flag := utils.VerifySign(signature, message, mywallrt.PrivateKey.PubKey())
+	if flag {
+		fmt.Printf("【签名测试】:%s 【结果】:%s\n", message, "通过,数据未被修改")
+	} else {
+		fmt.Printf("【签名测试】:%s 结果】:%s\n", message, "异常,数据被修改")
+	}
+
+	flag = utils.VerifySign(signature, verify_message, mywallrt.PrivateKey.PubKey())
+	if flag {
+		fmt.Printf("【签名测试】:%s 结果】:%s\n", verify_message, "通过,数据未被修改")
+	} else {
+		fmt.Printf("【签名测试】:%s 结果】:%s\n", verify_message, "异常,数据被修改")
+	}
+
 }
