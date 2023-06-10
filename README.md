@@ -1,8 +1,12 @@
 # 简介
- **项目地址:https://github.com/Scorpio69t/superl-wallet**
+**项目地址:https://github.com/Scorpio69t/superl-wallet**
+
 **作者:Scorpio69t**
+
 **邮箱:yangruitao6@gmail.com**
+
 **博客:https://blog.csdn.net/qq_32019341?type=blog**
+
 **QQ: 3324729792**
 
 使用GO语言原创研发的一款基于区块链技术的数字代币钱包信息生成工具，并且带有丰富的注释与算法的步骤说明。
