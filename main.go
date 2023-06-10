@@ -1,17 +1,17 @@
-// 项目地址:https://github.com/super-l/superl-wallet
-// 作者:superl
-// 邮箱:86717375@qq.com
-// 博客:www.superl.org
-// QQ交流群:235586685
+// 项目地址:https://github.com/Scorpio69t/superl-wallet
+// 作者:Scorpio69t
+// 邮箱:yangruitao6@gmail.com
+// 博客:https://blog.csdn.net/qq_32019341?type=blog
+// QQ: 3324729792
 
 package main
 
 import (
-	"./config"
-	"./utils"
-	"./wallet"
 	"encoding/hex"
 	"fmt"
+	"superl-wallet/config"
+	"superl-wallet/utils"
+	"superl-wallet/wallet"
 )
 
 // [比特币]16进制公钥字符串，计算出比特币地址，验证是否有效

@@ -1,19 +1,20 @@
 package wallet
 
 import (
-	"../config"
-	"../crypto"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"golang.org/x/crypto/ripemd160"
 	"log"
 	"math/big"
+	"superl-wallet/config"
+	"superl-wallet/crypto"
+
+	"golang.org/x/crypto/ripemd160"
 )
 
 // 获取未压缩公钥
 func (w *Wallet) BtcGetUncompressedPubKey() []byte {
-	pubkeyUncompressedStr := fmt.Sprintf("%s%x%x", "04", w.PrivateKey.PubKey().X().Bytes(), w.PrivateKey.PubKey().Y().Bytes())
+	pubkeyUncompressedStr := fmt.Sprintf("%s%x%x", "04", w.PrivateKey.PubKey().GetX().Bytes(), w.PrivateKey.PubKey().GetY().Bytes())
 	pubkeyUncompressed, _ := hex.DecodeString(pubkeyUncompressedStr)
 	return pubkeyUncompressed
 }
@@ -24,7 +25,7 @@ func (w *Wallet) BtcGetCompressedPubKey() []byte {
 	//fmt.Printf("Y:%x \n",w.PrivateKey.PubKey().Y().Bytes())
 	data := big.NewInt(1)
 
-	result := data.Mod(w.PrivateKey.PubKey().Y(), big.NewInt(2))
+	result := data.Mod(w.PrivateKey.PubKey().GetY(), big.NewInt(2))
 
 	var pubkeyCompressedStr string
 
@@ -32,10 +33,10 @@ func (w *Wallet) BtcGetCompressedPubKey() []byte {
 	//如果Y坐标的值为奇数，在X坐标前添加前缀0x03
 	if result.Cmp(big.NewInt(0)) == 0 {
 		//fmt.Print("偶数\n")
-		pubkeyCompressedStr = fmt.Sprintf("%s%x", "02", w.PrivateKey.PubKey().X().Bytes())
+		pubkeyCompressedStr = fmt.Sprintf("%s%x", "02", w.PrivateKey.PubKey().GetX().Bytes())
 	} else {
 		//fmt.Print("奇数\n")
-		pubkeyCompressedStr = fmt.Sprintf("%s%x", "03", w.PrivateKey.PubKey().X().Bytes())
+		pubkeyCompressedStr = fmt.Sprintf("%s%x", "03", w.PrivateKey.PubKey().GetX().Bytes())
 	}
 	pubkeyCompressed, _ := hex.DecodeString(pubkeyCompressedStr)
 

@@ -3,6 +3,7 @@ package wallet
 import (
 	"encoding/hex"
 	"fmt"
+
 	"github.com/decred/dcrd/dcrec/secp256k1"
 	"golang.org/x/crypto/sha3"
 )
@@ -15,10 +16,10 @@ func EthGetAddressFromPrivkey(strPrivKey string) (pubkey []byte, address string)
 	)
 
 	buf, _ = hex.DecodeString(strPrivKey)
-	privKey := secp256k1.PrivKeyFromBytes(buf)
+	privKey, _ := secp256k1.PrivKeyFromBytes(buf)
 
 	//拿公钥（非压缩公钥）来hash，计算公钥的 Keccak-256 哈希值（32bytes）
-	pubkey = append(privKey.PubKey().X().Bytes(), privKey.PubKey().Y().Bytes()...)
+	pubkey = append(privKey.PubKey().GetX().Bytes(), privKey.PubKey().GetY().Bytes()...)
 
 	//计算公钥的Keccak256哈希值
 	hash := sha3.NewLegacyKeccak256()
@@ -31,7 +32,7 @@ func EthGetAddressFromPrivkey(strPrivKey string) (pubkey []byte, address string)
 	return pubkey, address
 }
 
-//拿公钥（非压缩公钥）来hash，计算公钥的 Keccak-256 哈希值（32bytes）
+// 拿公钥（非压缩公钥）来hash，计算公钥的 Keccak-256 哈希值（32bytes）
 func EthGetAddressFromPubkey(strPubKey string) string {
 	var (
 		uncompressPubKey []byte
@@ -51,7 +52,7 @@ func EthGetAddressFromPubkey(strPubKey string) string {
 	return address
 }
 
-//拿公钥（非压缩公钥）来hash，计算公钥的 Keccak-256 哈希值（32bytes）
+// 拿公钥（非压缩公钥）来hash，计算公钥的 Keccak-256 哈希值（32bytes）
 func EthGetAddressFromPubkeyBytes(uncompressPubKey []byte) {
 	var (
 		pubKeyHash256 []byte
