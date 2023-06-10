@@ -7,8 +7,9 @@
 package wallet
 
 import (
-	"github.com/decred/dcrd/dcrec/secp256k1"
 	"log"
+
+	"github.com/decred/dcrd/dcrec/secp256k1"
 )
 
 // 钱包数据类型
@@ -32,7 +33,7 @@ func newKeyPair() (secp256k1.PrivateKey, []byte) {
 		log.Panic(err)
 	}
 	//拼接x和y坐标，就是公钥
-	pubKey := append(privkey.PubKey().X().Bytes(), privkey.PubKey().Y().Bytes()...)
+	pubKey := append(privkey.PubKey().GetX().Bytes(), privkey.PubKey().GetY().Bytes()...)
 	return *privkey, pubKey
 }
 
@@ -46,6 +47,6 @@ func (w Wallet) GetHashPrivKey() []byte {
 func (w Wallet) GetPubKey() []byte {
 	//fmt.Printf("X:%x \n",w.PrivateKey.PubKey().X().Bytes())
 	//fmt.Printf("Y:%x \n",w.PrivateKey.PubKey().Y().Bytes())
-	pubKey := append(w.PrivateKey.PubKey().X().Bytes(), w.PrivateKey.PubKey().Y().Bytes()...)
+	pubKey := append(w.PrivateKey.PubKey().GetX().Bytes(), w.PrivateKey.PubKey().GetY().Bytes()...)
 	return pubKey
 }
