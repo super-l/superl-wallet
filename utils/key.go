@@ -7,16 +7,16 @@
 package utils
 
 import (
-	"../config"
-	"../crypto"
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"github.com/decred/dcrd/dcrec/secp256k1"
-	"github.com/decred/dcrd/dcrec/secp256k1/ecdsa"
-	"golang.org/x/crypto/ripemd160"
 	"log"
+	"wallet/config"
+	"wallet/crypto"
+
+	"github.com/decred/dcrd/dcrec/secp256k1"
+	"golang.org/x/crypto/ripemd160"
 )
 
 // WIF压缩格式私钥转换成16进制格式私钥
@@ -79,13 +79,13 @@ func GetAddress(publickey []byte, netVersion byte) []byte {
 // 根据16进制原始私钥，计算出压缩公钥和未压缩公钥
 func PrivkeyToPubKey(privkey string) (pubkeyUncompressed string, pubkeyCompressed string, x string, y string) {
 	privateKeyBytes, _ := hex.DecodeString(privkey)
-	publicKey := secp256k1.PrivKeyFromBytes(privateKeyBytes)
+	/*privKey*/ _, publicKey := secp256k1.PrivKeyFromBytes(privateKeyBytes)
 
-	x = hex.EncodeToString(publicKey.PubKey().X().Bytes())
-	y = hex.EncodeToString(publicKey.PubKey().Y().Bytes())
+	x = hex.EncodeToString(publicKey.X.Bytes())
+	y = hex.EncodeToString(publicKey.Y.Bytes())
 
-	pubkeyUncompressed = hex.EncodeToString(publicKey.PubKey().SerializeUncompressed())
-	pubkeyCompressed = hex.EncodeToString(publicKey.PubKey().SerializeCompressed())
+	pubkeyUncompressed = hex.EncodeToString(publicKey.SerializeUncompressed())
+	pubkeyCompressed = hex.EncodeToString(publicKey.SerializeCompressed())
 
 	return pubkeyUncompressed, pubkeyCompressed, x, y
 }
@@ -112,14 +112,19 @@ func IsVaildBitcoinAddress(address string) bool {
 }
 
 // 获取签名
-func GetSign(key secp256k1.PrivateKey, message []byte) *ecdsa.Signature {
+func GetSign(key secp256k1.PrivateKey, message []byte) *secp256k1.Signature {
 	fmt.Printf("待签名字符:%s\n", message)
-	signature := ecdsa.Sign(&key, message)
+	//signature := ecdsa.Sign(&key, message)
+	signature, err := key.Sign(message)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
 	return signature
 }
 
 // 验证签名
-func VerifySign(Signature *ecdsa.Signature, message []byte, pubKey *secp256k1.PublicKey) bool {
+func VerifySign(Signature *secp256k1.Signature, message []byte, pubKey *secp256k1.PublicKey) bool {
 	fmt.Printf("待验证字符:%s\n", message)
 	flag := Signature.Verify(message, pubKey)
 	return flag
