@@ -1,3 +1,6 @@
+secp256k1 v1.0.4 update.
+pls download go.mod,and go mod tidy.
+
 # 简介
     // 项目地址:https://github.com/super-l/superl-wallet
     // 作者:superl
