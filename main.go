@@ -4,14 +4,16 @@
 // 博客:www.superl.org
 // QQ交流群:235586685
 
+//Chage log: secp256k1 version update.
+
 package main
 
 import (
-	"./config"
-	"./utils"
-	"./wallet"
 	"encoding/hex"
 	"fmt"
+	"wallet/config"
+	"wallet/utils"
+	"wallet/wallet"
 )
 
 // [比特币]16进制公钥字符串，计算出比特币地址，验证是否有效
